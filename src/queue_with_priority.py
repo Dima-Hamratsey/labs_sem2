@@ -4,41 +4,115 @@ class Node:
         self.priority = priority
         self.left = None
         self.right = None
+        self.height = 1
 
-class PriorityQueue:
+
+class AVLTree:
     def __init__(self):
         self.root = None
 
-    def insert(self, value, priority):
-        self.root = self.recursive(self.root, value, priority)
+    def print_tree(self, node):
+        if node is None:
+            return
+        self.print_tree(node.left)
+        print(node.value, node.priority)
+        self.print_tree(node.right)
 
-    def _insert_recursive_(self, current, value, priority):
-        if current is None:
+    def get_height(self, node):
+        if node is None:
+            return 0
+        else:
+            return node.height
+
+    def get_balance(self, node):
+        if node is None:
+            return 0
+        else:
+            return self.get_height(node.left) - self.get_height(node.right)
+
+    def left_rotate(self, node):
+        if node is None or node.right is None:
+            return node
+        y = node.right
+        beta = y.left
+        y.left = node
+        node.right = beta
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        return y
+
+    def right_rotate(self, node):
+        if node is None or node.left is None:
+            return node
+        y = node.left
+        alpha = y.right
+        y.right = node
+        node.left = alpha
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        return y
+
+    def insert(self, root, value, priority):
+        if root is None:
             return Node(value, priority)
-        elif priority <= current.priority:
-            current.left = self.recursive(current.left, value, priority)
-            return current
         else:
-            new_node = Node(value, priority)
-            new_node.left = current
-            return new_node
+            if priority <= root.priority:
+                root.left = self.insert(root.left, value, priority)
+            else:
+                root.right = self.insert(root.right, value, priority)
 
-    def removal__highest_priority(self):
-        if self.root:
-            value = self.root.value
-            self.root = self.root.left
-            return value
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+        balance = self.get_balance(root)
+        if balance > 1:
+            if priority <= root.left.priority:
+                return self.right_rotate(root)
+            else:
+                root.left = self.left_rotate(root.left)
+                return self.right_rotate(root)
+        if balance < -1:
+            if priority > root.right.priority:
+                return self.left_rotate(root)
+            else:
+                root.right = self.right_rotate(root.right)
+                return self.left_rotate(root)
+
+        return root
+
+    def enqueue(self, value, priority):
+        self.root = self.insert(self.root, value, priority)
+
+    def delete_highest_priority(self, root):
+        if root is None:
+            return root, None
+
+        if root.left:
+            root.left, deleted_node = self.delete_highest_priority(root.left)
         else:
-            return None
+            deleted_node = (root.value, root.priority)
+            root = root.right
 
-    def highest_priority(self):
-        if self.root:
-            return self.root.value
-        else:
-            return None
+        if root is None:
+            return root, deleted_node
 
-    def display_queue(self):
-        current = self.root
-        while current:
-            print(f"Value: {current.value}, Priority: {current.priority}")
-            current = current.left
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+        balance = self.get_balance(root)
+        if balance > 1:
+            if self.get_balance(root.left) >= 0:
+                return self.right_rotate(root), deleted_node
+            else:
+                root.left = self.left_rotate(root.left)
+                return self.right_rotate(root), deleted_node
+        if balance < -1:
+            if self.get_balance(root.right) <= 0:
+                return self.left_rotate(root), deleted_node
+            else:
+                root.right = self.right_rotate(root.right)
+                return self.left_rotate(root), deleted_node
+
+        return root, deleted_node
+
+    def deque(self):
+        self.root, deleted_node = self.delete_highest_priority(self.root)
+        return deleted_node
