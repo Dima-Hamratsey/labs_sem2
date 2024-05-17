@@ -1,5 +1,5 @@
 import unittest
-from island import floyd_warshall
+from src.island import floyd_warshall
 
 class TestFloydWarshall(unittest.TestCase):
     def test_floyd_warshall(self):
