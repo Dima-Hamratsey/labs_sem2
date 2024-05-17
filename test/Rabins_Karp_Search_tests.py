@@ -1,5 +1,5 @@
 import unittest
-from lab_7 import rabin_karp_search
+from Rabin_Karp_Search import rabin_karp_search
 
 class TestRabinKarp(unittest.TestCase):
 
