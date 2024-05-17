@@ -1,5 +1,5 @@
 import unittest
-from queue_with_priority_lab4 import PriorityQueue
+from src.queue_with_priority import PriorityQueue
 
 
 class TestPriorityQueue(unittest.TestCase):
