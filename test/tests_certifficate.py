@@ -1,5 +1,5 @@
 import unittest
-from src.queue_with_priority import PriorityQueue
+from src.certifficate import PriorityQueue
 
 
 class TestPriorityQueue(unittest.TestCase):
