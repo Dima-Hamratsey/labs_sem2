@@ -1,5 +1,5 @@
 import unittest
-from main import has_cycle
+from src.min_deep import has_cycle
 
 class TestCycleDetection(unittest.TestCase):
     def test_has_cycle_function_runs(self):
