@@ -1,5 +1,5 @@
 import unittest
-from queue_with_priority_lab4 import *
+from queue_with_priority import *
 
 
 class TestAVLPriorityTree(unittest.TestCase):
