@@ -1,5 +1,5 @@
 import unittest
-from code2 import find_three_numbers
+from test_binary_tree import find_three_numbers
 
 class TestFindThreeNumbers(unittest.TestCase):
     def test_case_1(self):
