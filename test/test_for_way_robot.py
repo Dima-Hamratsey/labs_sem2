@@ -1,5 +1,5 @@
 
-from main import find_way_robot
+from src.way_robot import find_way_robot
 import unittest
 
 
