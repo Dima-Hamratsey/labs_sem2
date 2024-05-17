@@ -1,5 +1,5 @@
 import unittest
-from level3 import BinaryTree, find_successor
+from src.binarytree import BinaryTree, find_successor
 
 class TestFindSuccessor(unittest.TestCase):
     def test_find_successor(self):
