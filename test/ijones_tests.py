@@ -1,5 +1,5 @@
 import unittest
-from ijones import ijones
+from src.ijones import ijones
 
 
 class TestIJones(unittest.TestCase):
